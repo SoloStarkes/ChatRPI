@@ -1,30 +1,39 @@
-
+import time 
 
 
 import requests
 from bs4 import BeautifulSoup
 
 import os
+
+api_key = os.getenv("OPENAI_API_KEY3")
 import openai
 
 url = 'https://www.nbcnews.com/news/us-news/firefighters-battle-lahaina-maui-fire-rcna105142'
 
-def data_scrape(url):
-
-
-    response = requests.get(url)
-
-    if response.status_code == 200:
-        #this has the website text with all the html code
-        #print(response.text)
-        soup = BeautifulSoup(response.text, 'html.parser')
+def data_scrape(url, timeout=10):
+    try:
+        start_time = time.time()
+        response = requests.get(url, timeout=timeout)
+        end_time = time.time()
+        elapsed_time = end_time - start_time
         
-        # this has the text of the website without the html tags and stuff 
-        return soup.text
-    
-    else:
+        if response.status_code == 200:
+            print("Successful response")
+            if elapsed_time > timeout:
+                print("Request took more than 10 seconds. Skipping...")
+                return -1
+            soup = BeautifulSoup(response.text, 'html.parser')
+            return soup.text
+        else:
+            print('Failed to retrieve the page. Status code:', response.status_code)
+            return -1
+    except requests.exceptions.Timeout:
+        print('Request timed out after', timeout, 'seconds. Skipping...')
         return -1
-        print('Failed to retrieve the page. Status code:', response.status_code)
+    except Exception as e:
+        print('An error occurred:', str(e))
+        return -1
 
 
 
@@ -37,7 +46,7 @@ def search_websites_with_keyword(keyword):
     search_url = f"https://www.google.com/search?q={search_query}"
     headers = {"User-Agent": "Your User Agent Here"}  # Replace with your User-Agent header
     response = requests.get(search_url, headers=headers)
-
+    
     # Check if the request was successful
     if response.status_code == 200:
         # Parse the HTML content of the search results page
@@ -53,7 +62,8 @@ def search_websites_with_keyword(keyword):
                 print(url)
                 info = data_scrape(url)
                 print(info)
-                message_list.append( {"role": "system", "content": info})
+                if (info != -1):
+                    message_list.append( {"role": "system", "content": info})
 
                 
 
@@ -64,7 +74,6 @@ def search_websites_with_keyword(keyword):
     else:
         print("Failed to retrieve search results.")
 
-api_key = "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"
 
 
 
@@ -84,13 +93,16 @@ def create_response(user_input):
 
 
 user_input = input("Enter a message: ")
-#search_websites_with_keyword("rpi")
+search_websites_with_keyword("rpi")
 
 ex_url = "https://www.rpi.edu/"
 some_info = data_scrape(ex_url)
 message_list.append( {"role": "system", "content": some_info})
 
 create_response(user_input)
+
+
+
 
 
 
