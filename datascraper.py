@@ -5,13 +5,12 @@ import requests
 from bs4 import BeautifulSoup
 
 import os
-
-api_key = os.getenv("OPENAI_API_KEY3")
 import openai
 
-url = 'https://www.nbcnews.com/news/us-news/firefighters-battle-lahaina-maui-fire-rcna105142'
+api_key = os.getenv("API_KEY")
 
-def data_scrape(url, timeout=10):
+
+def data_scrape(url, timeout=5):
     try:
         start_time = time.time()
         response = requests.get(url, timeout=timeout)
@@ -80,9 +79,13 @@ def search_websites_with_keyword(keyword):
 message_list=[
     {"role": "system", "content": "You are a helpful assistant."},
   ]
+
+
 def create_response(user_input):
     message_list.append( {"role": "user", "content": user_input})
-    openai.api_key = os.getenv("OPENAI_API_KEY")
+    print(api_key)
+
+    openai.api_key = api_key
     completion = openai.ChatCompletion.create(
     model="gpt-3.5-turbo",
     messages=message_list
@@ -100,9 +103,5 @@ some_info = data_scrape(ex_url)
 message_list.append( {"role": "system", "content": some_info})
 
 create_response(user_input)
-
-
-
-
 
 
