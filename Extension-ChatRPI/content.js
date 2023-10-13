@@ -1,45 +1,91 @@
+function get_chat_response(question) {
+  
+  // Define the 'response' element 
+  var response = document.getElementById('respons');
+
+  // Create a 'span' element to display the user's question
+  var your_question = document.createElement('span');
+  your_question.innerText = "You: " + question + "\n";
+  response.appendChild(your_question);
+
+  // Create a 'span' element for the loading message
+  var loading = document.createElement('span');
+  loading.innerText = "ChatRPI: Loading...";
+  document.getElementById("respons").appendChild(loading);
+
+  // Create the 'request' object
+  var request = { "question": question };
+  document.getElementById("respons").scrollTop = document.getElementById("respons").scrollHeight; 
+  // Make a fetch request
+  fetch(`http://127.0.0.1:8000/get_chat_response/?question=${question}`, {method: "GET"})
+    .then(response => response.json())
+    .then(data => {
+      console.log(data["resp"]);
+
+      // Remove the loading message
+      response.removeChild(loading);
+      
+      // Append the response to the 'response' element
+      resptext = document.createElement('span');
+      resptext.innerText = "ChatRPI: " + data["resp"] + "\n";
+      document.getElementById("respons").appendChild(resptext);
+      textbox.value = "";
+      document.getElementById("respons").scrollTop = document.getElementById("respons").scrollHeight;
+    })
+
+}
+
+
+
 var sitebody = document.body;
 
 var popup = document.createElement('span');
 popup.id = "draggableElement"; // Assign the ID "draggableElement"
 
 //making the style
-popup.style.position = "absolute"
-popup.style.width = "200px";
-popup.style.height = "150px";
+popup.style.textAlign = "center";
+popup.style.position = "absolute";
+popup.style.width = "300px";
+popup.style.height = "500px";
 popup.style.top = "10%";
 popup.style.left = "10%";
 popup.style.backgroundColor = "white";
 popup.style.borderRadius = "15px";
 popup.style.boxShadow = "5px 0px 10px black"
 popup.style.overflowY = "auto";
+popup.style.zIndex = "10000"; 
 
 //making text content for popup
 var text = document.createElement('span');
 text.style.position = "absolute";
 text.style.width = "80%";
 text.style.height = "10%";
-text.style.top = "10%";
+text.style.top = "5%";
 text.style.left = "10%";
-text.innerText = "Ask me a question.";
+text.innerText = "Ask me question.";
 
 //making response text content for popup
 var response = document.createElement('span');
+response.style.overflowWrap = "break-word";
+response.style.textAlign = "left";
 response.style.border = "1px solid rgb(200,200,200)";
 response.style.position = "absolute";
 response.style.width = "80%";
-response.style.height = "20%";
-response.style.top = "30%";
+response.style.height = "50%";
+response.style.top = "15%";
 response.style.left = "10%";
 response.innerText = "";
 response.style.overflowY = "auto";
+response.style.display = "flex";
+response.style.flexDirection = "column"
+response.setAttribute("id","respons")
 
 //making text box for popup
 var textbox = document.createElement("input");
 textbox.style.position = "absolute";  
 textbox.style.width = "80%";
-textbox.style.height = "15%";
-textbox.style.top = "60%";
+textbox.style.height = "5%";
+textbox.style.top = "75%";
 textbox.style.left = "10%";
 textbox.style.zIndex = "1000";
 textbox.type = "text"; 
@@ -48,16 +94,17 @@ textbox.type = "text";
 
 //making button to confirm question
 var confirm_button = document.createElement('span');
+confirm_button.style.textAlign = "center";
 confirm_button.style.position = "absolute";
 confirm_button.style.width = "20%";
-confirm_button.style.height = "15%";
-confirm_button.style.top = "80%";
+confirm_button.style.height = "5%";
+confirm_button.style.top = "85%";
 confirm_button.style.left = "40%";
 confirm_button.innerText = "Ask";
 confirm_button.style.backgroundColor = "grey ";
 confirm_button.style.borderRadius = "3px";
 confirm_button.style.zIndex = "1000";
-confirm_button.onclick = function() {respond()};
+confirm_button.onclick = function() {get_chat_response(textbox.value)};
 confirm_button.style.cursor = "pointer";
 
 popup.appendChild(textbox);
@@ -107,4 +154,6 @@ function respond() {
     question = textbox.value;
     response.innerText = "You asked: " + question;
 }
+
+
 

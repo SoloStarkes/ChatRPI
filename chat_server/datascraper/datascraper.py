@@ -78,32 +78,37 @@ def search_websites_with_keyword(keyword):
 
 
 
-message_list=[
-    {"role": "system", "content": "You are a helpful assistant."},
-  ]
 
 
-def create_response(user_input):
+
+def create_response(user_input, message_list=[]):
+    time.sleep(1)
     message_list.append( {"role": "user", "content": user_input})
-
+    print(message_list)
     openai.api_key = api_key
+    print("starting creation")
     completion = openai.ChatCompletion.create(
     model="gpt-3.5-turbo",
     messages=message_list,
     temperature = 2 
     )
-  
+    print("created")
     print(completion.choices[0].message.content)
+    message_list.pop()
+    
+    return completion.choices[0].message.content
 
 
 
-user_input = input("Enter a message: ")
-search_websites_with_keyword("rpi")
+if __name__ == "__main__":
+    message_list=[
+    {"role": "system", "content": "You are a helpful assistant."},
+  ]
+    user_input = input("Enter a message: ")
+    search_websites_with_keyword("rpi")
 
-ex_url = "https://www.rpi.edu/"
-some_info = data_scrape(ex_url)
-message_list.append( {"role": "system", "content": some_info})
+    ex_url = "https://www.rpi.edu/"
+    some_info = data_scrape(ex_url)
+    message_list.append( {"role": "system", "content": some_info})
 
-create_response(user_input)
-
-
+    create_response(user_input, message_list)
