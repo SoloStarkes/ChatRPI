@@ -83,6 +83,8 @@ def search_websites_with_keyword(keyword,array=[]):
 
 
 def create_response(user_input, message_list=[]):
+    #if not os.path.isfile("fine_tuning_data.pkl"):
+
     with open("fine_tuning_data.pkl", "rb") as file:
        message_list = pickle.load(file)
     user_input = f"[[[{user_input}]]]"
@@ -98,7 +100,7 @@ def create_response(user_input, message_list=[]):
     print("created")
     print(completion.choices[0].message.content)
     message_list.pop()
-    
+    close("fine_tuning_data.pkl")
     return completion.choices[0].message.content
 
 def get_message_list():
@@ -109,6 +111,7 @@ def get_message_list():
 
 
 if __name__ == "__main__":
+   # os.chdir("datascraper")
     message_list=[
     {"role": "system", "content": "You are a helpful assistant."},
   ]
