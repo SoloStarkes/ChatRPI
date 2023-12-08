@@ -1,3 +1,6 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 import time 
 
 
@@ -7,10 +10,11 @@ from bs4 import BeautifulSoup
 import os
 import openai
 
-api_key = os.getenv("API_KEY")
+api_key = os.getenv("API_KEY7")
 
 
-def data_scrape(url, timeout=5):
+    
+def data_scrape(url, timeout=2):
     try:
         start_time = time.time()
         response = requests.get(url, timeout=timeout)
@@ -20,7 +24,7 @@ def data_scrape(url, timeout=5):
         if response.status_code == 200:
             print("Successful response")
             if elapsed_time > timeout:
-                print("Request took more than 10 seconds. Skipping...")
+                print("Request took more than 2 seconds. Skipping...")
                 return -1
             soup = BeautifulSoup(response.text, 'html.parser')
             return soup.text
@@ -58,9 +62,7 @@ def search_websites_with_keyword(keyword):
             if link and link.startswith("/url?q="):
                 # Extract the actual URL from the Google search result link
                 url = link[7:]  # Remove "/url?q=" prefix
-                print(url)
                 info = data_scrape(url)
-                print(info)
                 if (info != -1):
                     message_list.append( {"role": "system", "content": info})
 
@@ -76,32 +78,37 @@ def search_websites_with_keyword(keyword):
 
 
 
-message_list=[
-    {"role": "system", "content": "You are a helpful assistant."},
-  ]
 
 
-def create_response(user_input):
+
+def create_response(user_input, message_list=[]):
+    time.sleep(1)
     message_list.append( {"role": "user", "content": user_input})
-    print(api_key)
-
+    print(message_list)
     openai.api_key = api_key
+    print("starting creation")
     completion = openai.ChatCompletion.create(
     model="gpt-3.5-turbo",
-    messages=message_list
+    messages=message_list,
+    temperature = 2 
     )
-  
+    print("created")
     print(completion.choices[0].message.content)
+    message_list.pop()
+    
+    return completion.choices[0].message.content
 
 
 
-user_input = input("Enter a message: ")
-search_websites_with_keyword("rpi")
+if __name__ == "__main__":
+    message_list=[
+    {"role": "system", "content": "You are a helpful assistant."},
+  ]
+    user_input = input("Enter a message: ")
+    search_websites_with_keyword("rpi")
 
-ex_url = "https://www.rpi.edu/"
-some_info = data_scrape(ex_url)
-message_list.append( {"role": "system", "content": some_info})
+    ex_url = "https://www.rpi.edu/"
+    some_info = data_scrape(ex_url)
+    message_list.append( {"role": "system", "content": some_info})
 
-create_response(user_input)
-
-
+    create_response(user_input, message_list)
