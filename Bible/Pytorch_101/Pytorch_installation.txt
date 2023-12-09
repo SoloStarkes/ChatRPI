@@ -1,0 +1,49 @@
+Step 1: Check Prerequisites
+Before installing PyTorch, ensure that you have Python installed on your system. PyTorch supports Python versions 3.6 and above.
+
+Step 2: Choose the Installation Options
+PyTorch provides different installation options based on your system, GPU availability, and preferred package manager. The two primary installation configurations are:
+
+CPU-only Installation:
+If you don't have a compatible NVIDIA GPU or prefer to use PyTorch without GPU support, you can install the CPU-only version.
+
+GPU Installation:
+If you have an NVIDIA GPU and want to leverage its computational power, you can install the GPU version of PyTorch. This version requires additional GPU drivers and libraries.
+
+Step 3: Select the Installation Command
+Use the following command to install PyTorch based on your chosen configuration:
+
+CPU-only Installation:
+
+bash
+Copy code
+pip install torch torchvision torchaudio
+GPU Installation:
+
+bash
+Copy code
+pip install torch torchvision torchaudio -f https://download.pytorch.org/whl/cu<version>/torch_stable.html
+Replace <version> with your CUDA version (e.g., cu102 for CUDA 10.2).
+
+Step 4: Verify the Installation
+After the installation is complete, verify that PyTorch has been installed successfully by opening a Python interactive session (e.g., using the python or python3 command) and running the following commands:
+
+python
+Copy code
+import torch
+print(torch.__version__)
+This should print the installed PyTorch version, confirming that PyTorch is ready to use.
+
+Optional Steps:
+Install with Conda:
+If you prefer using Conda, you can install PyTorch using the following command:
+
+bash
+Copy code
+conda install pytorch torchvision torchaudio cudatoolkit=<version> -c pytorch
+Replace <version> with your CUDA version (e.g., cudatoolkit=10.2).
+
+Virtual Environment (Optional but Recommended):
+It's a good practice to use virtual environments to isolate your Python environment. You can create a virtual environment using tools like virtualenv or conda before installing PyTorch.
+
+Following these steps should help you download and install PyTorch successfully on your system.
