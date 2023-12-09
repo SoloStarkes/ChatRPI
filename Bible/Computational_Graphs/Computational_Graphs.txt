@@ -3,6 +3,58 @@ Computational Graphs:
 A computational graph is a DAG that represents the flow of operations in a mathematical expression or a neural network.
 Nodes in the graph represent operations or variables, and edges represent dependencies.
 
+A. Definition:
+A DAG is a graph that consists of nodes connected by directed edges, where each edge has a specific direction.
+The term "acyclic" indicates that there are no cycles or loops in the graph.
+
+B. Nodes and Edges:
+Nodes: Represent entities or operations in the graph.
+Directed Edges: Connect nodes, indicating the direction of information flow.
+
+C. Directed Edges and Dependencies:
+The direction of edges signifies dependencies between nodes.
+If there is a directed edge from node A to node B, it means that the computation or value of B depends on the computation 
+or value of A.
+
+D. Topological Ordering:
+In a DAG, it's possible to order the nodes in a topological order.
+Topological ordering ensures that for every directed edge (A, B), node A comes before node B in the ordering.
+This order is crucial for computations as it respects the dependencies between nodes.
+
+E. Acyclicity:
+The absence of cycles ensures that computations can progress in a well-defined manner without entering an infinite loop.
+Cycles in a computation graph would imply a circular dependency, making it challenging to determine a valid order of computation.
+
+F. Computational Graphs as DAGs:
+In deep learning, a computational graph is often represented as a DAG.
+Nodes correspond to operations, variables, or layers, and directed edges depict the flow of data or information during computation.
+
+G. Forward Pass in DAGs:
+During the forward pass, data flows along the directed edges, and computations are performed at each node.
+The topological ordering ensures that computations progress in a way that respects dependencies.
+
+H. Backward Pass (Backpropagation) in DAGs:
+During the backward pass (backpropagation), gradients flow in the reverse direction.
+Gradients are computed with respect to the loss at the output nodes and propagate backward through the graph.
+The topological ordering is crucial for efficiently computing gradients and updating parameters.
+
+I. Cyclic Dependencies and Challenges:
+Cycles in a computation graph would introduce circular dependencies, making it impossible to define a clear order of operations.
+This is why acyclic graphs are preferred for efficient and well-defined computations.
+
+J. Dynamic Nature in Deep Learning Frameworks:
+In dynamic computation graphs (as in PyTorch), the graph is constructed dynamically during the execution of the program.
+This dynamic nature allows flexibility in defining and modifying the architecture during runtime.
+
+K. Graph Visualization:
+Visualization tools like TensorBoard (for TensorFlow) and torchviz (for PyTorch) help in visually understanding the structure of the DAG.
+They provide insights into the connectivity of nodes and the flow of information during computations.
+
+L. Parallelism and Optimization:
+The acyclic nature of DAGs allows for parallelism in certain computations, as operations with no dependencies can be executed concurrently.
+This parallelism is crucial for optimizing the training of large-scale deep learning models.
+Understanding DAGs is fundamental in the context of computational graphs, as it provides a structured way to represent and reason about dependencies in complex mathematical expressions and neural network architectures.
+
 
 
 2. Nodes in the Graph:
