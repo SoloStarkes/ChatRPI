@@ -1,0 +1,66 @@
+Computational Graphs:
+1. Directed Acyclic Graph (DAG):
+A computational graph is a DAG that represents the flow of operations in a mathematical expression or a neural network.
+Nodes in the graph represent operations or variables, and edges represent dependencies.
+
+
+
+2. Nodes in the Graph:
+Variables (Leaf Nodes): Represent input data or parameters. They are the starting point of the graph and don't have dependencies.
+Operators (Intermediate Nodes): Represent mathematical operations like addition, multiplication, etc.
+Output Nodes (Loss): Represent the final output or loss in the case of a neural network.
+
+
+
+3. Edges in the Graph:
+Directed edges connect nodes, showing the flow of information.
+Each edge represents a mathematical operation or transformation from one node to another.
+
+
+
+4. Forward Pass:
+During the forward pass, values flow from input nodes through intermediate nodes to the output nodes, computing the final result.
+The computation graph records the sequence of operations performed during the forward pass.
+
+
+
+5. Backward Pass (Backpropagation):
+In deep learning, the backward pass involves computing gradients of the loss with respect to each learnable parameter using the chain rule.
+Gradients are computed by traversing the graph in reverse, starting from the output nodes and moving towards the input nodes.
+Gradients are then used to update the learnable parameters through optimization algorithms like gradient descent.
+
+
+
+6. Dynamic Computational Graphs (PyTorch):
+PyTorch uses dynamic computation graphs, which are created on-the-fly during the execution of the program.
+The graph is defined as operations are executed, allowing flexibility in model architectures.
+Non-leaf nodes are dynamically allocated during the forward pass and freed during the backward pass, optimizing memory usage.
+
+
+
+7. Static Computational Graphs (TensorFlow):
+TensorFlow, in contrast, uses static computation graphs.
+The entire graph is defined beforehand, and then data is fed into the graph during execution.
+This approach is useful for optimization during graph compilation but lacks the dynamic flexibility of PyTorch.
+
+
+
+8. Graph Retention (PyTorch):
+PyTorch automatically deallocates non-leaf nodes after the backward pass.
+To retain the graph for multiple backward passes, retain_graph=True can be specified in the backward function.
+
+
+
+9. Graph Compilation (TensorFlow):
+TensorFlow performs graph compilation before execution, optimizing the graph for efficient execution.
+This allows TensorFlow to execute the entire graph efficiently on specialized hardware.
+
+
+
+10. Debugging Advantage (Dynamic Graphs):
+Dynamic graphs, as in PyTorch, offer advantages in debugging. The graph is constructed step by step, making it easier to identify and fix errors during development.
+
+
+
+11. Computational Graph Visualization Tools:
+Tools like TensorBoard (for TensorFlow) and torchviz (for PyTorch) allow visualization of computational graphs, aiding in understanding and debugging.
