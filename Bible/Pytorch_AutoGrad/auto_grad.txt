@@ -1,0 +1,106 @@
+1. Autograd Overview:
+
+Definition: Autograd, short for Automatic Differentiation, is a core component of PyTorch that provides automatic 
+differentiation for operations on Tensors. Purpose: It enables the computation of gradients with respect to input Tensors, 
+facilitating gradient-based optimization for training neural networks. Dynamic Computation Graph: PyTorch uses a dynamic 
+computation graph, meaning the graph is constructed on-the-fly during the forward pass based on the actual execution of operations.
+
+
+
+2. Tensors and Autograd:
+
+Requires_grad Attribute:
+
+Each PyTorch Tensor has an attribute called requires_grad.
+When requires_grad is set to True, the Tensor will track operations on it for gradient computation during the backward pass.
+Leaf Tensors:
+
+Tensors that are created by the user or are explicitly marked with requires_grad=True are considered leaf nodes in the computation graph.
+Leaf nodes represent input data or parameters.
+Non-leaf Tensors:
+
+Tensors created as a result of operations on leaf Tensors are non-leaf nodes.
+They represent intermediate values and computations.
+
+
+
+3. Autograd Functions (grad_fn):
+
+Definition: Every operation involving Tensors in PyTorch is implemented by an Autograd Function.
+Grad_fn Attribute:
+Each Tensor has a grad_fn attribute that points to the Autograd Function that created it.
+It represents the operation or function applied to create the Tensor.
+
+
+
+4. Forward and Backward Pass:
+
+Forward Pass:
+
+During the forward pass, operations are applied to input Tensors, and the computation graph is dynamically constructed.
+Each operation creates a new non-leaf Tensor with a corresponding Autograd Function.
+Backward Pass (Backpropagation):
+
+During the backward pass, gradients are computed by propagating them backward through the computation graph.
+Gradients are computed with respect to leaf Tensors and accumulated in their .grad attributes.
+Backward Function:
+
+Autograd Functions implement a backward method that computes gradients with respect to their inputs.
+Gradients are computed using the chain rule and propagated to input Tensors.
+
+
+
+5. Dynamic Nature of Computation Graphs:
+
+Graph Construction:
+
+The computation graph is constructed dynamically during the forward pass based on the operations executed.
+Nodes and edges are created on-the-fly.
+Graph Cleanup:
+
+Non-leaf nodes and associated edges are freed after the backward pass.
+The graph is not stored after the backward pass to optimize memory usage.
+
+
+
+6. Handling Gradients:
+
+Retrieving Gradients:
+
+Gradients are accessed using the .grad attribute of a Tensor after the backward pass.
+Gradients represent the sensitivity of the output with respect to the input.
+retain_graph Argument:
+
+In some cases, you may need to retain the computation graph for multiple backward passes.
+This can be achieved by using the retain_graph=True argument in backward().
+
+
+
+7. Utility Functions:
+
+torch.no_grad():
+
+A context manager that temporarily disables gradient computation.
+Useful during inference when gradients are not needed.
+torch.set_grad_enabled():
+
+Enables or disables gradient computation globally.
+Provides finer control over when gradients should be computed.
+
+
+
+8. Use Cases and Applications:
+
+Training Neural Networks:
+
+Autograd is fundamental to training deep learning models using gradient-based optimization algorithms.
+Allows automatic computation of gradients for weight updates.
+Custom Loss Functions:
+
+Users can define custom loss functions using Autograd.
+Gradients can be computed with respect to user-defined objectives.
+Research and Experimentation:
+
+Autograd facilitates experimentation with custom architectures and operations.
+Dynamic computation graphs allow for flexibility during research.
+Autograd is at the heart of PyTorch's flexibility and ease of use in developing and experimenting with deep learning models. Its dynamic computation graph, coupled with automatic gradient computation, forms the backbone of training and optimizing neural networks. Understanding Autograd is crucial for effectively leveraging the power of PyTorch in machine learning and deep learning applications.
