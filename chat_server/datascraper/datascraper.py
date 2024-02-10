@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 import time 
-
+import pickle 
 
 import requests
 from bs4 import BeautifulSoup
@@ -41,7 +41,7 @@ def data_scrape(url, timeout=2):
 
 
 
-def search_websites_with_keyword(keyword):
+def search_websites_with_keyword(keyword,array=[]):
     # Define the search query
     search_query = f"intitle:{keyword}"  # This query searches for "rpi" in the title of web pages
 
@@ -64,13 +64,14 @@ def search_websites_with_keyword(keyword):
                 url = link[7:]  # Remove "/url?q=" prefix
                 info = data_scrape(url)
                 if (info != -1):
-                    message_list.append( {"role": "system", "content": info})
+                    array.append( {"role": "system", "content": info})
 
                 
 
 
 
                 # You can further process this URL or send a request to scrape data from the website
+        return array
 
     else:
         print("Failed to retrieve search results.")
@@ -82,6 +83,11 @@ def search_websites_with_keyword(keyword):
 
 
 def create_response(user_input, message_list=[]):
+    #if not os.path.isfile("fine_tuning_data.pkl"):
+
+    with open("fine_tuning_data.pkl", "rb") as file:
+       message_list = pickle.load(file)
+    user_input = f"[[[{user_input}]]]"
     time.sleep(1)
     message_list.append( {"role": "user", "content": user_input})
     print(message_list)
@@ -89,18 +95,23 @@ def create_response(user_input, message_list=[]):
     print("starting creation")
     completion = openai.ChatCompletion.create(
     model="gpt-3.5-turbo",
-    messages=message_list,
-    temperature = 2 
+    messages=message_list
     )
     print("created")
     print(completion.choices[0].message.content)
     message_list.pop()
-    
+    close("fine_tuning_data.pkl")
     return completion.choices[0].message.content
+
+def get_message_list():
+    message_list = search_websites_with_keyword("rpi")
+    with open("fine_tuning_data.pkl", "wb") as file:
+        pickle.dump(message_list, file)
 
 
 
 if __name__ == "__main__":
+   # os.chdir("datascraper")
     message_list=[
     {"role": "system", "content": "You are a helpful assistant."},
   ]
@@ -111,4 +122,4 @@ if __name__ == "__main__":
     some_info = data_scrape(ex_url)
     message_list.append( {"role": "system", "content": some_info})
 
-    create_response(user_input, message_list)
+    create_response(user_input)
