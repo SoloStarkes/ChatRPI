@@ -1,0 +1,7 @@
+pip install:
+    python-dotenv
+    django
+    django-cors-headers
+    bs4
+    requests
+    penai==0.28

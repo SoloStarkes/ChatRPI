@@ -52,11 +52,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'chat_server.urls'
-CORS_ALLOWED_ORIGINS = [
-   "HTTPS://*",
-   "HTTP://*",
-   "https://rpi.edu",
-]
+
+CORS_ALLOW_ALL_ORIGINS = True
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
