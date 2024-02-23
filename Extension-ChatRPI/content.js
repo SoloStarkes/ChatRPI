@@ -54,6 +54,7 @@ popup.style.borderRadius = "15px";
 popup.style.boxShadow = "5px 0px 10px black"
 popup.style.overflowY = "auto";
 popup.style.zIndex = "10000"; 
+popup.style.color = "black";
 
 //making text content for popup
 var text = document.createElement('span');
