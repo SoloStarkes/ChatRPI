@@ -14,7 +14,7 @@ function get_chat_response(question) {
   document.getElementById("respons").appendChild(loading);
 
   // Create the 'request' object
-  var request = { "question": question };
+  var request = {"question": question};
   document.getElementById("respons").scrollTop = document.getElementById("respons").scrollHeight; 
   // Make a fetch request
   fetch(`http://127.0.0.1:8000/get_chat_response/?question=${question}`, {method: "GET"})
@@ -54,6 +54,7 @@ popup.style.borderRadius = "15px";
 popup.style.boxShadow = "5px 0px 10px black"
 popup.style.overflowY = "auto";
 popup.style.zIndex = "10000"; 
+popup.style.color = "black";
 
 //making text content for popup
 var text = document.createElement('span');
