@@ -1,4 +1,5 @@
 # ChatRPI
+##  A search engine tailored specifically for Rensselaer Polytechnic Institute
 ## How To Use
 ### Installing the extension
 - On google chrome, navigate to `Extensions` to the right of the search bar at the top
