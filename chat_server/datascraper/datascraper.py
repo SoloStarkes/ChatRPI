@@ -1,6 +1,73 @@
 from dotenv import load_dotenv
-load_dotenv()
+import asyncio
+import aiohttp
+from bs4 import BeautifulSoup
+import os
+import openai
 
+load_dotenv()
+api_key = os.getenv("API_KEY7")
+
+# Function to check if website can be scraped successfully
+async def fetch_data(session, url):
+    async with session.get(url) as response:
+        if response.status == 200:
+            return await response.text()
+        else:
+            print(f"Failed to fetch data from {url}. Status code: {response.status}")
+            return None
+
+# Extracts data from specified URL
+async def scrape_website(url):
+    async with aiohttp.ClientSession() as session:
+        html = await fetch_data(session, url)
+        if html:
+            soup = BeautifulSoup(html, 'html.parser')
+            # Extract data from the BeautifulSoup object as needed
+            # For example:
+            title = soup.title.text
+            return {"url": url, "title": title}
+
+# List of URL's to scrape data from. Scraping happens asynchronous
+async def main():
+    # Add more URls as needed
+    urls = [
+        'https://www.rpi.edu',
+        'https://catalog.rpi.edu'
+    ]
+
+    # List of data that has been scraped from the different URLs
+    scraped_data = []
+    tasks = []
+    for url in urls:
+        task = asyncio.create_task(scrape_website(url))
+        tasks.append(task)
+
+    # If data scraping of specififed URL is a success, add to scraped_data and
+    # return the array
+    scraped_results = await asyncio.gather(*tasks)
+    for result in scraped_results:
+        if result:
+            scraped_data.append(result)
+
+    return scraped_data
+
+if __name__ == "__main__":
+    # Message list and user input for the chatbot as well as the scraped data
+    # from websites to feed it
+    message_list = []
+    user_input = input("Enter a message: ")
+    scraped_data = asyncio.run(main())
+    for data in scraped_data:
+        message_list.append({"role": "system", "content": data})
+    openai.api_key = api_key
+    completion = openai.ChatCompletion.create(
+        model = "gpt-3.5-turbo",
+        messages = message_list
+    )
+    print(completion.choices[0].message.content)
+
+'''
 import time 
 import requests
 from bs4 import BeautifulSoup
@@ -90,3 +157,4 @@ if __name__ == "__main__":
     message_list.append( {"role": "system", "content": some_info})
 
     create_response(user_input, message_list)
+'''
