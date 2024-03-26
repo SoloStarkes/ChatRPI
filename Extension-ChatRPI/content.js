@@ -1,4 +1,7 @@
 function get_chat_response(question) {
+  console.log("code updated")
+  var sitebody = document.body;
+  console.log(sitebody)
   
   // Define the 'response' element 
   var response = document.getElementById('respons');

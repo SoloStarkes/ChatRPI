@@ -2,18 +2,13 @@ from dotenv import load_dotenv
 load_dotenv()
 
 import time 
-
-
 import requests
 from bs4 import BeautifulSoup
-
 import os
 import openai
 
 api_key = os.getenv("API_KEY7")
 
-
-    
 def data_scrape(url, timeout=2):
     try:
         start_time = time.time()
@@ -37,9 +32,6 @@ def data_scrape(url, timeout=2):
     except Exception as e:
         print('An error occurred:', str(e))
         return -1
-
-
-
 
 def search_websites_with_keyword(keyword):
     # Define the search query
@@ -65,21 +57,10 @@ def search_websites_with_keyword(keyword):
                 info = data_scrape(url)
                 if (info != -1):
                     message_list.append( {"role": "system", "content": info})
-
-                
-
-
-
                 # You can further process this URL or send a request to scrape data from the website
 
     else:
         print("Failed to retrieve search results.")
-
-
-
-
-
-
 
 def create_response(user_input, message_list=[]):
     time.sleep(1)
@@ -90,15 +71,12 @@ def create_response(user_input, message_list=[]):
     completion = openai.ChatCompletion.create(
     model="gpt-3.5-turbo",
     messages=message_list,
-    
     )
     print("created")
     print(completion.choices[0].message.content)
     message_list.pop()
     
     return completion.choices[0].message.content
-
-
 
 if __name__ == "__main__":
     message_list=[
