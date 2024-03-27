@@ -32,8 +32,9 @@ async def scrape_website(url):
 async def main():
     # Add more URls as needed
     urls = [
-        'https://www.rpi.edu',
-        'https://catalog.rpi.edu'
+        'https://www.rpi.edu/',
+        'https://catalog.rpi.edu/',
+        'https://president.rpi.edu/'
     ]
 
     # List of data that has been scraped from the different URLs
@@ -59,13 +60,20 @@ if __name__ == "__main__":
     user_input = input("Enter a message: ")
     scraped_data = asyncio.run(main())
     for data in scraped_data:
-        message_list.append({"role": "system", "content": data})
+        # Convert the content dictionary to string
+        content_str = f"{data['url']}: {data['title']}"
+        message_list.append({"role": "system", "content": content_str})
+        #message_list.append({"role": "system", "content": data})
     openai.api_key = api_key
+    for i in range(len(message_list)):
+        print(message_list[i])
+    message_list.append({"role": "user", "content": user_input})
     completion = openai.ChatCompletion.create(
         model = "gpt-3.5-turbo",
-        messages = message_list
+        messages = message_list,
     )
     print(completion.choices[0].message.content)
+    
 
 '''
 import time 
