@@ -1,3 +1,52 @@
-h1{
-    color: red;
+body{
+    background-repeat: no-repeat;
+    background-size: 50%;
+    background-attachment: fixed;
+    background-position: center;
+    background-color: red ;
 }
+
+.search{
+    position: fixed;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    height: 50px;
+    width: 100%;
+    text-align: center;
+}
+
+.search input{
+    height: 20px;
+    width: 1250px;
+
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: white;
+}
+
+
+li a {
+  display: block;
+  color: red;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+  background-color: #00d0ffd3;
+}
+
+
+
+
+
+  
