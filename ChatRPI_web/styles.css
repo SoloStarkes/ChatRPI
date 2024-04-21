@@ -3,7 +3,8 @@ body{
     background-size: 50%;
     background-attachment: fixed;
     background-position: center;
-    background-color: red ;
+    background-color: rgb(255, 70, 70)    ;
+    background-image: url(images/logo.png);
 }
 
 .search{
@@ -19,32 +20,36 @@ body{
 .search input{
     height: 20px;
     width: 1250px;
-
 }
 
 ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
+  width: 100px;
+  text-align: center;
   overflow: hidden;
-  background-color: white;
+  background-color: rgb(255, 0, 0);
 }
 
 
 li a {
   display: block;
-  color: red;
+  color:white;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
 }
 
 
-/* Change the link color to #111 (black) on hover */
 li a:hover {
   background-color: #00d0ffd3;
 }
 
+.question {
+  text-align: center;
+
+}
 
 
 
